@@ -57,6 +57,28 @@ onload = function(){
                 }
 
             },
+            addMessage: function() {
+                this.messageToSend = this.$textarea.val();
+                this.render();
+            },
+            addMessageEnter: function(event) {
+                // enter was pressed
+                if (event.keyCode === 13) {
+                    this.addMessage();
+                }
+            },
+            scrollToBottom: function() {
+                this.$chatHistory.scrollTop(this.$chatHistory[0].scrollHeight);
+            },
+            getCurrentTime: function() {
+                return new Date().toLocaleTimeString().
+                replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
+            }
+        };
+
+        chat.init();
+};
+
 class ChatTree {
 
     constructor() {
