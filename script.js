@@ -1,3 +1,33 @@
+onload = function(){
+    // outputs a javascript object from the parsed json
+
+        var chat = {
+            messageToSend: '',
+            messageResponses: [
+                'Why did the web developer leave the restaurant? Because of the table layout.',
+                'How do you comfort a JavaScript bug? You console it.',
+                'An SQL query enters a bar, approaches two tables and asks: "May I join you?"',
+                'What is the most used language in programming? Profanity.',
+                'What is the object-oriented way to become wealthy? Inheritance.',
+                'An SEO expert walks into a bar, bars, pub, tavern, public house, Irish pub, drinks, beer, alcohol'
+            ],
+            init: async function() {
+                this.chatTree = new ChatTree();
+                await this.chatTree.init();
+                this.cacheDOM();
+                this.bindEvents();
+                await this.render();
+            },
+            cacheDOM: function() {
+                this.$chatHistory = $('.chat-history');
+                this.$button = $('button');
+                this.$textarea = $('#message-to-send');
+                this.$chatHistoryList =  this.$chatHistory.find('ul');
+            },
+            bindEvents: function() {
+                this.$button.on('click', this.addMessage.bind(this));
+                this.$textarea.on('keyup', this.addMessageEnter.bind(this));
+            },
 class ChatTree {
 
     constructor() {
