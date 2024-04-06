@@ -28,6 +28,35 @@ onload = function(){
                 this.$button.on('click', this.addMessage.bind(this));
                 this.$textarea.on('keyup', this.addMessageEnter.bind(this));
             },
+            render: async function() {
+                this.scrollToBottom();
+                if (this.messageToSend.trim() !== '') {
+                    var template = Handlebars.compile( $("#message-template").html());
+                    var context = {
+                        messageOutput: this.messageToSend,
+                        time: this.getCurrentTime()
+                    };
+
+                    this.input = this.messageToSend;
+                    this.$chatHistoryList.append(template(context));
+                    this.scrollToBottom();
+                    this.$textarea.val('');
+
+                    // responses
+                    var templateResponse = Handlebars.compile( $("#message-response-template").html());
+                    var contextResponse = {
+                        response: await this.chatTree.getMessage(this.input),
+                        time: this.getCurrentTime()
+                    };
+
+                    setTimeout(function() {
+                        this.$chatHistoryList.append(templateResponse(contextResponse));
+                        this.scrollToBottom();
+                    }.bind(this), 1000);
+
+                }
+
+            },
 class ChatTree {
 
     constructor() {
